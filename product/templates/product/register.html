@@ -6,15 +6,14 @@
   <title>Register</title>
 </head>
 <body>
-    <h1>Create Account</h1>
-    <p class="subtitle">Fill in the details below to register</p>
+  <h1>Create Account</h1>
+  <p class="subtitle">Fill in the details below to register</p>
 
-    <form method="post" id="registerForm" novalidate>
-        {% csrf_token %}
-        {{ form_as_p }}
-      
+  <form method="post" id="registerForm" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
 
-      <button type="submit">Register</button>
-    </form>
+    <button type="submit">Register</button>
+  </form>
 </body>
 </html>
