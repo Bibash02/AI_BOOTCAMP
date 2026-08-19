@@ -3,6 +3,7 @@ import os
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
+import requests
 
 # Create your views here.
 def register_view(request):
@@ -67,7 +68,23 @@ def user_dashboard(request):
                 ],
             }
 
-    return render(request, 'product/user_dashboard.html')
+            try:
+                response = request.post(endpoint, headers = headers, json = payload, timeout = 15)
+
+                if response.status_code == 200:
+                    data = response.json()
+                    ai_response = data['choices'][0]['messages']['content']
+                else:
+                    ai_response = f"Error: {response.status_code} - {response.text}"
+
+            except Exception as e:
+                ai_response = f"Error occur: {str(e)}"
+    context = {
+        'ai_response': ai_response,
+        'user_prompt': user_prompt
+    }
+
+    return render(request, 'product/user_dashboard.html', context)
 
 def logout_view(request):
     logout(request)

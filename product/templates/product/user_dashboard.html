@@ -8,5 +8,27 @@
 <body>
     <h1> User Dashboard </h1>
     <p> Welcome User...</p>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+    <h1> AI CHAT</h1>
+    <form>
+        {% csrf_token %}
+        <label for = "user_prompt"> Ask anything to AI Assistent</label> <br><br>
+        <textarea id = "user_prompt" name = 'user_prompt' rows="4" cols="50">
+            {{ user_prompt }}
+
+        </textarea> <br><br>
+        <button type="submit"> Send </button>
+        <br> <br>
+        
+        {% if ai_response %}
+        <h3> AI Response: </h3>
+        <p> {{ ai_response }} </p>
+        {% endif %}
+    </form>
 </body>
 </html>
