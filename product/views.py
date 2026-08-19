@@ -15,3 +15,18 @@ def register_view(request):
         form = UserCreationForm
 
     return render(request, 'product/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            user = form.get_user()
+
+            # check if the user is superuser or not
+            if user.is_staff or user.is_superuser:
+                return redirect('admin-panel')
+            else:
+                return redirect('user-dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, "product/login.html", {'form': form})
