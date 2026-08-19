@@ -38,8 +38,39 @@ def admin_dashboard(request):
 
 @login_required(login_url='login')
 def user_dashboard(request):
+    ai_response = None
+    user_prompt = ''
+
+    if request.method == "POST":
+        user_prompt = request.POST.get('user_prompt', '').strip()
+
+        if user_prompt:
+            api_key = os.getenv('GEMINI_API_KEY')
+            endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+
+            headers = {
+                'Authorization': f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            }
+
+            payload = {
+                'model': "gemini-3.5-flash",
+                'messages': [
+                    {
+                        "role": "system",
+                        "content": "You are helpful assestent."
+                    },
+                    {
+                        "role": 'user',
+                        "content": user_prompt
+                    }
+                ],
+            }
+
     return render(request, 'product/user_dashboard.html')
 
 def logout_view(request):
     logout(request)
     return redirect(login)
+
+
