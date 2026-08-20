@@ -15,7 +15,7 @@
     </form>
 
     <h1> AI CHAT</h1>
-    <form>
+    <form method="post">
         {% csrf_token %}
         <label for = "user_prompt"> Ask anything to AI Assistent</label> <br><br>
         <textarea id = "user_prompt" name = 'user_prompt' rows="4" cols="50">

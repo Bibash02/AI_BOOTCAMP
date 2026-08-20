@@ -69,11 +69,11 @@ def user_dashboard(request):
             }
 
             try:
-                response = request.post(endpoint, headers = headers, json = payload, timeout = 15)
+                response = requests.post(endpoint, headers = headers, json = payload, timeout = 15)
 
                 if response.status_code == 200:
                     data = response.json()
-                    ai_response = data['choices'][0]['messages']['content']
+                    ai_response = data['choices'][0]['message']['content']
                 else:
                     ai_response = f"Error: {response.status_code} - {response.text}"
 
